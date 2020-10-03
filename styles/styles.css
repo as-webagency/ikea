@@ -629,13 +629,16 @@ footer {
 	-webkit-box-pack: justify;
 	-ms-flex-pack: justify;
 	justify-content: space-between;
-	height: 100%;
 }
 
 .goods-item__img {
 	height: 380px;
 	display: table-cell;
 	vertical-align: middle
+}
+.goods-item__img img {
+	height: 100%;
+	object-fit: cover;
 }
 
 
@@ -665,7 +668,7 @@ footer {
 }
 
 .goods-item__header {
-	margin-top: auto;
+	margin-top: 1rem;
 	margin-bottom: 1rem;
 }
 
@@ -685,6 +688,7 @@ footer {
 	margin-bottom: 1rem;
 	font-size: .875rem;
 	line-height: 1.42857;
+	min-height: 38px;
 }
 
 .goods-item__price {

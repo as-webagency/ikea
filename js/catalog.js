@@ -1,15 +1,16 @@
 'use strict';
 
+import { getData } from './getData.js';
+import generateSubCatalog from './generateSubCatalog.js';
+
 export const catalog = () => {
 
+    const upDateSubCatalog = generateSubCatalog();
     const btnBurger = document.querySelector( '.btn-burger' );
     const catalog = document.querySelector( '.catalog' );
-    const btnClose = document.querySelector( '.btn-close' );
-    const subCatalog = document.querySelector( '.subcatalog' ); 
-    const subCatalogHeader = document.querySelector( '.subcatalog-header' );
-    const btnReturn = document.querySelector( '.btn-return' ); 
-
+    const subCatalog = document.querySelector( '.subcatalog' );
     const overlay = document.createElement( 'div' );
+    
     overlay.classList.add( 'overlay' );
     document.body.insertAdjacentElement( 'beforeend', overlay );
 
@@ -27,12 +28,20 @@ export const catalog = () => {
     };
 
     // Открытие под меню
-    const openSubMenu = event => {
+    const handlerCatalog = event => {
         event.preventDefault();
-        const itemList = event.target.closest( '.catalog-list__item' );
+        const target = event.target;
+        const itemList = target.closest( '.catalog-list__item' );
+
         if ( itemList ) {
-            subCatalogHeader.innerHTML = itemList.innerHTML;
-            subCatalog.classList.add( 'subopen' );
+            getData.subCatalog( target.textContent, ( data ) => {
+                subCatalog.classList.add( 'subopen' );
+                upDateSubCatalog( target.textContent, data );
+            });
+        }
+
+        if ( event.target.closest( '.btn-close' ) ) {
+            closeMenu();
         }
     };
 
@@ -42,10 +51,15 @@ export const catalog = () => {
     };
 
     btnBurger.addEventListener( 'click', openMenu );
-    btnClose.addEventListener( 'click', closeMenu );
     overlay.addEventListener( 'click', closeMenu );
-    catalog.addEventListener( 'click', openSubMenu );
-    btnReturn.addEventListener( 'click', closeSubMenu );
+    catalog.addEventListener( 'click', handlerCatalog );
+    subCatalog.addEventListener( 'click', ( event ) => {
+        const btnReturn = event.target.closest( '.btn-return' );
+
+        if ( btnBurger ) {
+            closeSubMenu();
+        }
+    });
 
     // Закрытие меню при нажатии клавишы 
     document.addEventListener( 'keydown', ( event ) => {
