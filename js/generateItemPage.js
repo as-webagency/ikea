@@ -60,10 +60,6 @@ const generateItemPage = () => {
             checkWishList();
         });
 
-        btnGood.addEventListener( 'click', () => {
-
-        });
-
     };
 
     if ( location.hash && location.pathname.includes( 'card' ) ) {
