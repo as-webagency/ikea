@@ -1,19 +1,17 @@
 'use strict';
 
 import { getData } from './getData.js';
+import userData from './userData.js';
 
 const COUNTER = 6;
-const wishList = ['idd005', 'idd100', 'idd077', 'idd033'];
-
 const generateGoodsPage = () => {
 
     const mainHeader = document.querySelector( '.main-header' );
-    const goodsList = document.querySelector( '.goods-list' );
 
     const generateCards = ( data ) => {
-        
+        const goodsList = document.querySelector( '.goods-list' );
         goodsList.textContent = '';
-        if ( !data.leтпре  ) {
+        if ( !data.length  ) {
             const goods = document.querySelector( '.goods' );
             goods.textContent = location.search === '?wishlist' ? 
             'Список желаний пуст' : 
@@ -47,6 +45,15 @@ const generateGoodsPage = () => {
                 </li>
             `);
         });
+
+        goodsList.addEventListener( 'click', ( event ) => {
+            const btnAddCard = event.target.closest( '.btn-add-card' );
+            if ( btnAddCard ) {
+                event.preventDefault();
+                userData.cartList = btnAddCard.dataset.idd;
+            }
+        });
+
     };
 
     if ( location.pathname.includes( 'goods' ) && location.search ) {
@@ -58,13 +65,13 @@ const generateGoodsPage = () => {
             getData.search( value, generateCards );
             mainHeader.textContent = `Поиск: ${value}`;
         } else if ( prop === 'wishlist' ) {
-            getData.wishList( wishList, generateCards );
+            getData.wishList( userData.wishList, generateCards );
             mainHeader.textContent = `Список желаний: `;
         } else if ( prop === 'cat' || prop === 'subcat' ) {
             getData.category( prop, value, generateCards );
             mainHeader.textContent = value;
         }
-    } 
+    }
 
 };
 
