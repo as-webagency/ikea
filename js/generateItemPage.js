@@ -59,6 +59,11 @@ const generateItemPage = () => {
             userData.wishList = id;
             checkWishList();
         });
+        
+        btnGood.addEventListener( 'click', ( event ) => {
+            event.preventDefault();
+            userData.cartList = btnGood.dataset.idd;
+        });
 
     };
 
